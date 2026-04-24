@@ -1,9 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python -m venv env)",
-      "Bash(env/Scripts/pip install *)",
-      "Bash(git *)"
+      "Bash(git worktree *)",
+      "Bash(git branch *)",
+      "Bash(git reset *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(npm run *)"
     ]
   }
 }
