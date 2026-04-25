@@ -2,10 +2,10 @@ import { useState } from 'react'
 import './App.css'
 
 const NAV_ITEMS = [
-  { label: 'Home', href: '#' },
-  { label: 'Leads', href: '#' },
-  { label: 'Search', href: '#' },
-  { label: 'Settings', href: '#' },
+  { label: 'Home',     href: '#', icon: '🏠' },
+  { label: 'Leads',    href: '#', icon: '📋' },
+  { label: 'Search',   href: '#', icon: '🔍' },
+  { label: 'Settings', href: '#', icon: '⚙️' },
 ]
 
 function App() {
@@ -22,15 +22,16 @@ function App() {
         >
           <span /><span /><span />
         </button>
-        {navOpen && (
-          <ul className="nav-links">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.label}>
-                <a href={item.href}>{item.label}</a>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul className="nav-links">
+          {NAV_ITEMS.map((item) => (
+            <li key={item.label}>
+              <a href={item.href}>
+                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       </nav>
 
       <div className="main-wrap">
