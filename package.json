@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://pianoleads.benjaminhuang13.github.io",
+  "homepage": "https://pianoleads.benyellow.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
