@@ -8,7 +8,10 @@
       "Bash(git push *)",
       "Bash(npm run *)",
       "Bash(git rm *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(npm install *)",
+      "Bash(npx vite *)",
+      "Bash(dir dist\\\\assets)"
     ]
   }
 }

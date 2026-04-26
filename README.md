@@ -1,6 +1,6 @@
 # Piano Lead Finder
 
-React + Vite site hosted at [pianoleads.benjaminhuang13.github.io](https://pianoleads.benjaminhuang13.github.io).
+React + Vite site hosted at [pianoleads.benyellow.com](https://pianoleads.benyellow.com).
 
 ## Setup
 
