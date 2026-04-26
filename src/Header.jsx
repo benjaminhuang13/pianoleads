@@ -3,9 +3,8 @@ import { firebaseReady } from './firebase'
 import './Header.css'
 
 export default function Header() {
-  const { user, loginWithGoogle, logout } = useAuth()
+  const { user, authError, loginWithGoogle, logout } = useAuth()
 
-  // Still resolving auth state
   if (user === undefined) {
     return <header className="app-header" />
   }
@@ -13,6 +12,9 @@ export default function Header() {
   return (
     <header className="app-header">
       <div className="header-right">
+        {authError && (
+          <span className="auth-error">{authError}</span>
+        )}
         {user ? (
           <div className="user-info">
             {user.photoURL && (

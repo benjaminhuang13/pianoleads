@@ -15,6 +15,15 @@
   gap: 12px;
 }
 
+.auth-error {
+  font-size: 13px;
+  color: #e06c6c;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .user-info {
   display: flex;
   align-items: center;

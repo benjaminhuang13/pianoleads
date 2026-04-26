@@ -1,4 +1,4 @@
-# Piano Lead Finder
+# Piano Leads
 
 React + Vite site hosted at [pianoleads.benyellow.com](https://pianoleads.benyellow.com).
 
