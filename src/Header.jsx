@@ -1,26 +1,24 @@
-import { useAuth } from './AuthContext'
-import { firebaseReady } from './firebase'
-import './Header.css'
+import { useAuth } from "./AuthContext";
+import { firebaseReady } from "./firebase";
+import "./Header.css";
 
 export default function Header() {
-  const { user, authError, loginWithGoogle, logout } = useAuth()
+  const { user, authError, loginWithGoogle, logout } = useAuth();
 
   if (user === undefined) {
-    return <header className="app-header" />
+    return <header className="app-header" />;
   }
 
   return (
     <header className="app-header">
       <div className="header-right">
-        {authError && (
-          <span className="auth-error">{authError}</span>
-        )}
+        {authError && <span className="auth-error">{authError}</span>}
         {user ? (
           <div className="user-info">
             {user.photoURL && (
               <img
                 src={user.photoURL}
-                alt={user.displayName ?? 'User avatar'}
+                alt={user.displayName ?? "User avatar"}
                 className="user-avatar"
                 referrerPolicy="no-referrer"
               />
@@ -35,12 +33,12 @@ export default function Header() {
             className="btn-login"
             onClick={loginWithGoogle}
             disabled={!firebaseReady}
-            title={!firebaseReady ? 'Auth not configured' : undefined}
+            title={!firebaseReady ? "Auth not configured" : undefined}
           >
-            Sign in with Google
+            Sign in (Google)
           </button>
         )}
       </div>
     </header>
-  )
+  );
 }

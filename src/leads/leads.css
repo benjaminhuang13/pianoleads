@@ -1,0 +1,470 @@
+/* ── Leads page layout ── */
+.leads-page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Toolbar ── */
+.leads-toolbar {
+  padding: 20px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.leads-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.leads-title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.leads-count {
+  font-size: 13px;
+  color: var(--ivory-muted);
+}
+
+.leads-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.leads-search {
+  flex: 1;
+  min-width: 180px;
+  max-width: 320px;
+  background: #181818;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ivory);
+  padding: 6px 11px;
+  font-size: 13.5px;
+  font-family: inherit;
+}
+
+.leads-select {
+  background: #181818;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ivory);
+  padding: 6px 11px;
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.leads-search:focus,
+.leads-select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.leads-clear {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ivory-muted);
+  padding: 6px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.leads-clear:hover {
+  color: var(--ivory);
+  border-color: #555;
+}
+
+/* ── Table ── */
+.leads-table-wrap {
+  flex: 1;
+  overflow: auto;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  table-layout: fixed;
+}
+
+.leads-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #111;
+}
+
+.leads-table th {
+  padding: 9px 14px;
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ivory-muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.leads-table th.col-sortable {
+  cursor: pointer;
+}
+
+.leads-table th.col-sortable:hover {
+  color: var(--ivory);
+}
+
+.leads-table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #1a1a1a;
+  color: var(--ivory-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.leads-row {
+  cursor: pointer;
+}
+
+.leads-row:hover td {
+  background: rgba(248, 244, 232, 0.035);
+}
+
+.status-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.leads-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ivory-muted);
+}
+
+/* ── Load more ── */
+.leads-load-more {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.leads-load-more button {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ivory-muted);
+  padding: 8px 20px;
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.leads-load-more button:hover:not(:disabled) {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.leads-load-more button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── State messages ── */
+.leads-message {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ivory-muted);
+  font-size: 15px;
+}
+
+.leads-error {
+  color: #e05555;
+}
+
+/* ── Modal backdrop ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 200;
+}
+
+/* ── Drawer ── */
+.modal-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 740px;
+  max-width: 100vw;
+  height: 100%;
+  background: #141414;
+  border-left: 1px solid var(--border);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.modal-title {
+  margin: 0 0 4px;
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.modal-id {
+  font-size: 11px;
+  color: var(--ivory-muted);
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--ivory-muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.modal-close:hover {
+  color: var(--ivory);
+}
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 22px;
+}
+
+/* ── Sections ── */
+.modal-section {
+  margin-bottom: 26px;
+}
+
+.modal-section-title {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Field grid ── */
+.field-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.field-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--ivory-muted);
+}
+
+.field input,
+.field select {
+  background: #1c1c1c;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--ivory);
+  padding: 6px 9px;
+  font-size: 13.5px;
+  font-family: inherit;
+  width: 100%;
+  transition: border-color 0.15s;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.field-has-error input,
+.field-has-error select {
+  border-color: #e05555;
+}
+
+.field-err {
+  font-size: 11.5px;
+  color: #e05555;
+}
+
+.mono {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--ivory-muted);
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+/* ── Sources checkboxes ── */
+.sources-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 14px;
+  padding: 6px 0 2px;
+}
+
+.source-check {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ivory-dim);
+  user-select: none;
+}
+
+.source-check input[type='checkbox'] {
+  width: auto;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* ── Notes ── */
+.notes-input {
+  width: 100%;
+  background: #1c1c1c;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--ivory);
+  padding: 9px 10px;
+  font-size: 13.5px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+
+.notes-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Modal footer ── */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.btn-ghost {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ivory-muted);
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover {
+  color: var(--ivory);
+  border-color: #555;
+}
+
+.btn-primary {
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: #111;
+  padding: 8px 18px;
+  font-size: 13.5px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 0.88;
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Toast ── */
+.toast {
+  position: absolute;
+  bottom: 72px;
+  right: 22px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  z-index: 10;
+  animation: toast-slide 0.2s ease;
+}
+
+.toast-success {
+  background: #162a1f;
+  border: 1px solid #2a5c3a;
+  color: #4caf76;
+}
+
+.toast-error {
+  background: #2a1616;
+  border: 1px solid #5c2a2a;
+  color: #e05555;
+}
+
+@keyframes toast-slide {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
