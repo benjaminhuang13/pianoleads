@@ -9,6 +9,7 @@ const IDLE_TIMEOUT_MS = 60 * 60 * 1000;
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(firebaseReady ? undefined : null);
   const [authError, setAuthError] = useState(null);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   useEffect(() => {
     if (!firebaseReady) return;
@@ -41,14 +42,17 @@ export function AuthProvider({ children }) {
 
   async function loginWithGoogle() {
     setAuthError(null);
-    const result = await signInWithPopup(auth, googleProvider);
-    const email = result.user.email;
-
-    const snap = await getDoc(doc(db, "whitelist_users", email));
-    if (!snap.exists()) {
-      await signOut(auth);
-      setAuthError(`User not authorized.`);
-      return;
+    setIsVerifying(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const email = result.user.email;
+      const snap = await getDoc(doc(db, "whitelist_users", email));
+      if (!snap.exists()) {
+        await signOut(auth);
+        setAuthError(`User not authorized.`);
+      }
+    } finally {
+      setIsVerifying(false);
     }
   }
 
@@ -58,7 +62,7 @@ export function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, authError, loginWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, authError, isVerifying, loginWithGoogle, logout }}>
       {children}
     </AuthContext.Provider>
   );

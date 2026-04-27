@@ -6,7 +6,7 @@ import {
   getSortedRowModel,
   flexRender,
 } from '@tanstack/react-table';
-import { useLeads, useSalesReps } from './useLeads';
+import { useLeads, useSalesReps, useTotalLeadCount } from './useLeads';
 import { formatPhone, formatDate } from './utils';
 import { LEAD_STATUS, SOURCE_TYPE, TERRITORY } from './constants';
 import LeadModal from './LeadModal';
@@ -23,19 +23,23 @@ const STATUS_COLOR = {
   taken: '#e05555',
 };
 
+const MIN_COL = 60;
+
 const COLUMNS = [
-  col.accessor('studio_name', { header: 'Studio', size: 180 }),
-  col.accessor('teacher_name', { header: 'Teacher', size: 150 }),
+  col.accessor('studio_name', { header: 'Studio', size: 180, minSize: MIN_COL }),
+  col.accessor('teacher_name', { header: 'Teacher', size: 150, minSize: MIN_COL }),
   col.accessor('phone', {
     header: 'Phone',
     size: 130,
+    minSize: MIN_COL,
     cell: ({ getValue }) => formatPhone(getValue()) || '—',
     enableSorting: false,
   }),
-  col.accessor('email', { header: 'Email', size: 190 }),
+  col.accessor('email', { header: 'Email', size: 190, minSize: MIN_COL }),
   col.accessor('status', {
     header: 'Status',
     size: 110,
+    minSize: MIN_COL,
     cell: ({ getValue }) => {
       const v = getValue();
       return v
@@ -43,15 +47,16 @@ const COLUMNS = [
         : '—';
     },
   }),
-  col.accessor('assigned_to', { header: 'Assigned', size: 120, cell: ({ getValue }) => getValue() ?? '—' }),
-  col.accessor('territory', { header: 'Territory', size: 120, cell: ({ getValue }) => getValue() ?? '—' }),
-  col.accessor('source', { header: 'Source', size: 120, cell: ({ getValue }) => getValue() ?? '—' }),
-  col.accessor('rating', { header: 'Rating', size: 75, cell: ({ getValue }) => getValue() ?? '—' }),
-  col.accessor('review_count', { header: 'Reviews', size: 80, cell: ({ getValue }) => getValue() ?? '—' }),
-  col.accessor('zip_code', { header: 'ZIP', size: 75, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('assigned_to', { header: 'Assigned', size: 120, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('territory', { header: 'Territory', size: 120, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('source', { header: 'Source', size: 120, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('rating', { header: 'Rating', size: 75, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('review_count', { header: 'Reviews', size: 80, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
+  col.accessor('zip_code', { header: 'ZIP', size: 75, minSize: MIN_COL, cell: ({ getValue }) => getValue() ?? '—' }),
   col.accessor('found_at', {
     header: 'Found',
     size: 115,
+    minSize: MIN_COL,
     cell: ({ getValue }) => formatDate(getValue()),
     sortingFn: 'datetime',
   }),
@@ -68,6 +73,17 @@ function useDebounce(value, delay) {
   return debounced;
 }
 
+const CSV_COLS = ['studio_name','teacher_name','phone','email','website','address','zip_code','status','territory','source','assigned_to','notes'];
+
+function exportCSV(leads) {
+  const rows = leads.map((l) => CSV_COLS.map((c) => JSON.stringify(l[c] ?? '')).join(','));
+  const csv = [CSV_COLS.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+  a.download = 'leads.csv';
+  a.click();
+}
+
 export default function LeadsPage() {
   const [searchRaw, setSearchRaw] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
@@ -80,6 +96,7 @@ export default function LeadsPage() {
   const search = useDebounce(searchRaw, 300);
 
   const { data: salesReps = [] } = useSalesReps();
+  const { data: totalCount } = useTotalLeadCount();
 
   const dbFilters = useMemo(
     () => ({ status: statusFilter, territory: territoryFilter, source: sourceFilter, assigned_to: assignedFilter }),
@@ -110,6 +127,7 @@ export default function LeadsPage() {
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     manualFiltering: true,
+    columnResizeMode: 'onChange',
   });
 
   if (!db) return <div className="leads-message leads-error">Firebase not configured.</div>;
@@ -121,12 +139,15 @@ export default function LeadsPage() {
       <div className="leads-toolbar">
         <div className="leads-title-row">
           <h2 className="leads-title">Leads</h2>
-          <span className="leads-count">
-            {filtered.length !== allLeads.length
-              ? `${filtered.length} / ${allLeads.length}`
-              : allLeads.length}{' '}
-            leads
-          </span>
+          <div className="leads-title-meta">
+            <span className="leads-count">
+              {filtered.length !== allLeads.length
+                ? `${filtered.length} / ${allLeads.length}`
+                : allLeads.length}{' '}
+              {totalCount != null && ` out of ${totalCount.toLocaleString()} loaded`}
+            </span>
+            <button className="leads-export" onClick={() => exportCSV(filtered)}>Export CSV</button>
+          </div>
         </div>
         <div className="leads-filters">
           <input
@@ -166,20 +187,26 @@ export default function LeadsPage() {
       </div>
 
       <div className="leads-table-wrap">
-        <table className="leads-table">
+        <table className="leads-table" style={{ width: table.getTotalSize() }}>
           <thead>
             {table.getHeaderGroups().map((hg) => (
               <tr key={hg.id}>
                 {hg.headers.map((h) => (
                   <th
                     key={h.id}
-                    style={{ width: h.getSize() }}
+                    style={{ width: h.getSize(), position: 'relative' }}
                     className={h.column.getCanSort() ? 'col-sortable' : ''}
                     onClick={h.column.getToggleSortingHandler()}
                   >
                     {flexRender(h.column.columnDef.header, h.getContext())}
                     {h.column.getIsSorted() === 'asc' && ' ↑'}
                     {h.column.getIsSorted() === 'desc' && ' ↓'}
+                    <div
+                      className={`col-resize-handle${h.column.getIsResizing() ? ' col-resize-active' : ''}`}
+                      onMouseDown={h.getResizeHandler()}
+                      onTouchStart={h.getResizeHandler()}
+                      onClick={(e) => e.stopPropagation()}
+                    />
                   </th>
                 ))}
               </tr>
@@ -198,7 +225,7 @@ export default function LeadsPage() {
                   onClick={() => setSelectedLead(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
+                    <td key={cell.id} style={{ width: cell.column.getSize() }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))}

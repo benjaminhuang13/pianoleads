@@ -16,8 +16,8 @@
 
 .leads-title-row {
   display: flex;
-  align-items: baseline;
-  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 12px;
 }
 
@@ -26,9 +26,31 @@
   font-size: 20px;
 }
 
+.leads-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .leads-count {
   font-size: 13px;
   color: var(--ivory-muted);
+}
+
+.leads-export {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--ivory-muted);
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.leads-export:hover {
+  border-color: var(--accent);
+  color: var(--ivory);
 }
 
 .leads-filters {
@@ -92,10 +114,10 @@
 }
 
 .leads-table {
-  width: 100%;
   border-collapse: collapse;
   font-size: 13.5px;
   table-layout: fixed;
+  min-width: 100%;
 }
 
 .leads-table thead {
@@ -124,6 +146,25 @@
 
 .leads-table th.col-sortable:hover {
   color: var(--ivory);
+}
+
+.col-resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 1px;
+  cursor: col-resize;
+  user-select: none;
+  touch-action: none;
+  background: var(--border);
+  opacity: 1;
+}
+
+.col-resize-handle:hover,
+.col-resize-active {
+  background: var(--accent);
+  opacity: 0.8;
 }
 
 .leads-table td {

@@ -5,7 +5,7 @@ const CITY = "Piano";
 const FAKE_LEADS = [
   { name: "NYC Piano Lessons",   rating: "4.7", reviews: 21 },
   { name: "Jane Mitchell Piano Studio", rating: "4.9", reviews: 38 },
-  { name: "Sara Okonkwo Music School",  rating: "5.0", reviews: 14 },
+  { name: "Excellence Music School",  rating: "5.0", reviews: 14 },
 ];
 
 const PHASES = ["typing", "searching", "results", "pause"];

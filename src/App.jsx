@@ -12,11 +12,11 @@ const queryClient = new QueryClient({
 
 const NAV_ITEMS = [
   { id: "home", label: "Home", icon: "🏠" },
-  { id: "leads", label: "Leads", icon: "📋" },
+  { id: "leads", label: "Leads", icon: "📋", requiresAuth: true },
 ];
 
 function AppContent() {
-  const { user } = useAuth();
+  const { user, isVerifying } = useAuth();
   const [navOpen, setNavOpen] = useState(false);
   const [activePage, setActivePage] = useState(() => {
     const hash = window.location.hash.slice(1);
@@ -30,19 +30,20 @@ function AppContent() {
   const year = new Date().getFullYear();
 
   function renderPage() {
-    if (user === undefined) return null;
+    if (user === undefined || isVerifying) return null;
 
     if (!user) {
       return (
         <main className="main">
-          <h1>find Piano Leads</h1>
-          <p className="home-tagline">Discover and organize piano teacher leads — all in one place.</p>
+          <h1>find Piano Leads 🔍</h1>
           <div className="home-body">
             <div className="home-features-col">
               <ul className="home-features">
                 <li>Search for piano teachers in any area</li>
                 <li>Save and manage leads in an organized list</li>
                 <li>Track outreach status for each contact</li>
+                <li>Filter by territory, status, or source</li>
+                <li>Export leads to CSV</li>
               </ul>
               <p className="home-cta">Sign in to get started.</p>
             </div>
@@ -86,7 +87,7 @@ function AppContent() {
           <span />
         </button>
         <ul className="nav-links">
-          {NAV_ITEMS.map((item) => (
+          {NAV_ITEMS.filter((item) => !item.requiresAuth || user).map((item) => (
             <li key={item.id}>
               <button
                 className={`nav-btn${activePage === item.id ? " nav-active" : ""}`}

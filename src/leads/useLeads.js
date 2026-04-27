@@ -1,6 +1,6 @@
 import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  collection, query, orderBy, limit, startAfter, where, getDocs, updateDoc, doc,
+  collection, query, orderBy, limit, startAfter, where, getDocs, updateDoc, doc, getCountFromServer,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -27,6 +27,18 @@ export function useLeads(filters = {}) {
     initialPageParam: null,
     getNextPageParam: (last) => last.lastDoc ?? undefined,
     enabled: Boolean(db),
+  });
+}
+
+export function useTotalLeadCount() {
+  return useQuery({
+    queryKey: ['leads_total_count'],
+    queryFn: async () => {
+      const snap = await getCountFromServer(collection(db, 'leads'));
+      return snap.data().count;
+    },
+    enabled: Boolean(db),
+    staleTime: 5 * 60 * 1000,
   });
 }
 
