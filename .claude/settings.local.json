@@ -11,7 +11,8 @@
       "Bash(git add *)",
       "Bash(npm install *)",
       "Bash(npx vite *)",
-      "Bash(dir dist\\\\assets)"
+      "Bash(dir dist\\\\assets)",
+      "Bash(git commit *)"
     ]
   }
 }

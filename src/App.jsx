@@ -38,6 +38,7 @@ function AppContent() {
           <h1>find Piano Leads 🔍</h1>
           <div className="home-body">
             <div className="home-features-col">
+                <p className="home-cta">Sign in to get started.</p>
               <ul className="home-features">
                 <li>Search for piano teachers in any area</li>
                 <li>Save and manage leads in an organized list</li>
@@ -45,7 +46,6 @@ function AppContent() {
                 <li>Filter by territory, status, or source</li>
                 <li>Export leads to CSV</li>
               </ul>
-              <p className="home-cta">Sign in to get started.</p>
             </div>
             <HomeDemo />
           </div>
@@ -57,14 +57,16 @@ function AppContent() {
 
     return (
       <main className="main">
-        <h1>find Piano Leads</h1>
+        <h1>find Piano Leads 🔍</h1>
         <div className="home-body">
           <div className="home-features-col">
               <p className="home-tagline">Welcome, {user.displayName ?? user.email}.</p>
             <ul className="home-features">
-              <li>Search for piano teachers in any area</li>
-              <li>Save and manage leads in an organized list</li>
-              <li>Track outreach status for each contact</li>
+                <li>Search for piano teachers in any area</li>
+                <li>Save and manage leads in an organized list</li>
+                <li>Track outreach status for each contact</li>
+                <li>Filter by territory, status, or source</li>
+                <li>Export leads to CSV</li>
             </ul>
             <p className="home-cta">Head to <button className="inline-link" onClick={() => handleNav("leads")}>Leads</button> to get started.</p>
           </div>
