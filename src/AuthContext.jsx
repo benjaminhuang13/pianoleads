@@ -4,6 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, googleProvider, db, firebaseReady } from "./firebase";
 
 const AuthContext = createContext(null);
+const IDLE_TIMEOUT_MS = 60 * 60 * 1000;
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(firebaseReady ? undefined : null);
@@ -16,6 +17,27 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    let timer = setTimeout(() => signOut(auth), IDLE_TIMEOUT_MS);
+
+    const reset = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => signOut(auth), IDLE_TIMEOUT_MS);
+    };
+
+    window.addEventListener("mousemove", reset);
+    window.addEventListener("keydown", reset);
+    window.addEventListener("click", reset);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("mousemove", reset);
+      window.removeEventListener("keydown", reset);
+      window.removeEventListener("click", reset);
+    };
+  }, [user]);
 
   async function loginWithGoogle() {
     setAuthError(null);

@@ -49,10 +49,7 @@ export default function LeadModal({ lead, onClose, onSaved }) {
     setErrors((e) => ({ ...e, [field]: undefined }));
   }
 
-  async function handleSave() {
-    const errs = validate(form);
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-
+  function computeChanges() {
     const changes = {};
     for (const key of Object.keys(form)) {
       if (READ_ONLY.has(key)) continue;
@@ -75,6 +72,16 @@ export default function LeadModal({ lead, onClose, onSaved }) {
       const original = normalizeValue(key, lead[key]);
       if (current !== original) changes[key] = current;
     }
+    return changes;
+  }
+
+  const hasChanges = Object.keys(form).length > 0 && Object.keys(computeChanges()).length > 0;
+
+  async function handleSave() {
+    const errs = validate(form);
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+
+    const changes = computeChanges();
 
     if (Object.keys(changes).length === 0) { onClose(); return; }
 
@@ -95,7 +102,6 @@ export default function LeadModal({ lead, onClose, onSaved }) {
         <div className="modal-header">
           <div>
             <h3 className="modal-title">{form.studio_name || form.teacher_name || 'Lead'}</h3>
-            <span className="modal-id">{lead.id}</span>
           </div>
           <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
         </div>
@@ -104,10 +110,6 @@ export default function LeadModal({ lead, onClose, onSaved }) {
           <section className="modal-section">
             <h4 className="modal-section-title">Metadata</h4>
             <div className="field-grid">
-              <Field label="ID" fullWidth><span className="mono">{lead.id}</span></Field>
-              <Field label="Google Place ID" fullWidth>
-                <span className="mono">{lead.google_place_id ?? '—'}</span>
-              </Field>
               <Field label="Rating"><span>{lead.rating ?? '—'}</span></Field>
               <Field label="Reviews"><span>{lead.review_count ?? '—'}</span></Field>
               <Field label="Most recent review"><span>{formatDate(lead.most_recent_review)}</span></Field>
@@ -136,10 +138,10 @@ export default function LeadModal({ lead, onClose, onSaved }) {
               <Field label="Email">
                 <input type="email" value={form.email ?? ''} onChange={(e) => set('email', e.target.value)} />
               </Field>
-              <Field label="Website" fullWidth>
+              <Field label="Website">
                 <input value={form.website ?? ''} onChange={(e) => set('website', e.target.value)} placeholder="https://" />
               </Field>
-              <Field label="Address" fullWidth>
+              <Field label="Address">
                 <input value={form.address ?? ''} onChange={(e) => set('address', e.target.value)} />
               </Field>
               <Field label="ZIP code">
@@ -240,7 +242,7 @@ export default function LeadModal({ lead, onClose, onSaved }) {
 
         <div className="modal-footer">
           <button className="btn-ghost" onClick={onClose}>Cancel</button>
-          <button className="btn-primary" onClick={handleSave} disabled={isPending}>
+          <button className="btn-primary" onClick={handleSave} disabled={isPending} style={!hasChanges ? { opacity: 0.35, cursor: 'default' } : undefined}>
             {isPending ? 'Saving…' : 'Save changes'}
           </button>
         </div>
