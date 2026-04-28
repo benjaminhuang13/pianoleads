@@ -251,6 +251,8 @@
 
   .main-wrap {
     margin-left: 160px;
+    height: auto;
+    overflow: visible;
   }
 
   .nav-closed .main-wrap {
@@ -259,5 +261,9 @@
 
   h1 {
     font-size: 32px;
+  }
+
+  .footer {
+    padding: 10px 16px;
   }
 }

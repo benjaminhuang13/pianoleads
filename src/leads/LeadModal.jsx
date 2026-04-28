@@ -238,6 +238,22 @@ export default function LeadModal({ lead, onClose, onSaved }) {
               placeholder="Free-form notes…"
             />
           </section>
+
+          <section className="modal-section">
+            <h4 className="modal-section-title">Validation</h4>
+            <div className="field-grid">
+              <Field label="Valid lead (if you make this no, it will be hidden)">
+                <select
+                  value={form.is_valid_lead === true ? 'true' : form.is_valid_lead === false ? 'false' : ''}
+                  onChange={(e) => set('is_valid_lead', e.target.value === 'true' ? true : e.target.value === 'false' ? false : null)}
+                >
+                  <option value="">—</option>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </Field>
+            </div>
+          </section>
         </div>
 
         <div className="modal-footer">

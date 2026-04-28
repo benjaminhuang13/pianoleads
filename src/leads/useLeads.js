@@ -14,8 +14,11 @@ async function fetchPage(pageParam, filters = {}) {
   if (filters.assigned_to) constraints.push(where('assigned_to', '==', filters.assigned_to));
   if (pageParam) constraints.push(startAfter(pageParam));
   const snap = await getDocs(query(collection(db, 'leads'), ...constraints));
+  const leads = snap.docs
+    .map((d) => ({ id: d.id, ...d.data() }))
+    .filter((l) => l.is_valid_lead !== false);
   return {
-    leads: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+    leads,
     lastDoc: snap.docs[snap.docs.length - 1] ?? null,
   };
 }

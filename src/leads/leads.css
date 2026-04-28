@@ -412,6 +412,45 @@
   cursor: pointer;
 }
 
+@media (max-width: 640px) {
+  .leads-page {
+    overflow: visible;
+    min-height: auto;
+  }
+
+  .leads-table-wrap {
+    overflow: visible;
+    flex: none;
+  }
+
+  .leads-toolbar {
+    padding: 10px 12px 8px;
+  }
+
+  .leads-title-row {
+    margin-bottom: 8px;
+  }
+
+  .leads-title {
+    font-size: 16px;
+  }
+
+  .leads-filters {
+    gap: 6px;
+  }
+
+  .leads-search {
+    min-width: 0;
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+
+  .leads-select {
+    font-size: 13px;
+    padding: 5px 8px;
+  }
+}
+
 /* ── Notes ── */
 .notes-input {
   width: 100%;
