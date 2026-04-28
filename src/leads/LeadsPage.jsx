@@ -76,7 +76,10 @@ function useDebounce(value, delay) {
 const CSV_COLS = ['studio_name','teacher_name','phone','email','website','address','zip_code','status','territory','source','assigned_to','notes'];
 
 function exportCSV(leads) {
-  const rows = leads.map((l) => CSV_COLS.map((c) => JSON.stringify(l[c] ?? '')).join(','));
+  const rows = leads.map((l) => CSV_COLS.map((c) => {
+    const s = String(l[c] ?? '');
+    return JSON.stringify(/^[=+\-@\t\r]/.test(s) ? `'${s}` : s);
+  }).join(','));
   const csv = [CSV_COLS.join(','), ...rows].join('\n');
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
