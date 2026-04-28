@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /whitelist_users/{email} {
+      allow read: if request.auth != null && request.auth.token.email == email;
+      allow write: if false;
+    }
+
+    match /leads/{docId} {
+      allow get, list, update: if request.auth != null &&
+        exists(/databases/$(database)/documents/whitelist_users/$(request.auth.token.email));
+    }
+
+    match /sales_reps/{repId} {
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/whitelist_users/$(request.auth.token.email));
+      allow write: if false;
+    }
+
+  }
+}
