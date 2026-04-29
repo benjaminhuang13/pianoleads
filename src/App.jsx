@@ -38,12 +38,17 @@ function AppContent() {
           <h1>find Piano Leads 🔍</h1>
           <div className="home-body">
             <div className="home-features-col">
-                <p className="home-cta">Sign in to get started.</p>
+              <p className="home-cta">Invite only.</p>
+              <p className="home-cta">Sign in to get started.</p>
               <ul className="home-features">
                 <li>Search for piano teachers in any area</li>
                 <li>Save and manage leads in an organized list</li>
                 <li>Track outreach status for each contact</li>
-                <li>Filter by territory, status, or source</li>
+                <li>
+                  Pulls data from Google Maps, Yelp, MTNA, social media, and
+                  more
+                </li>
+                <li>Filter by territory, status, source, assignee, and more</li>
                 <li>Export leads to CSV</li>
               </ul>
             </div>
@@ -60,15 +65,26 @@ function AppContent() {
         <h1>find Piano Leads 🔍</h1>
         <div className="home-body">
           <div className="home-features-col">
-              <p className="home-tagline">Welcome, {user.displayName ?? user.email}.</p>
+            <p className="home-tagline">
+              Welcome, {user.displayName ?? user.email}.
+            </p>
             <ul className="home-features">
-                <li>Search for piano teachers in any area</li>
-                <li>Save and manage leads in an organized list</li>
-                <li>Track outreach status for each contact</li>
-                <li>Filter by territory, status, or source</li>
-                <li>Export leads to CSV</li>
+              <li>Search for piano teachers in any area</li>
+              <li>Save and manage leads in an organized list</li>
+              <li>Track outreach status for each contact</li>
+              <li>Filter by territory, status, or source</li>
+              <li>Export leads to CSV</li>
             </ul>
-            <p className="home-cta">Head to <button className="inline-link" onClick={() => handleNav("leads")}>Leads</button> to get started.</p>
+            <p className="home-cta">
+              Head to{" "}
+              <button
+                className="inline-link"
+                onClick={() => handleNav("leads")}
+              >
+                Leads
+              </button>{" "}
+              to get started.
+            </p>
           </div>
           <HomeDemo />
         </div>
@@ -89,17 +105,19 @@ function AppContent() {
           <span />
         </button>
         <ul className="nav-links">
-          {NAV_ITEMS.filter((item) => !item.requiresAuth || user).map((item) => (
-            <li key={item.id}>
-              <button
-                className={`nav-btn${activePage === item.id ? " nav-active" : ""}`}
-                onClick={() => handleNav(item.id)}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                <span className="nav-label">{item.label}</span>
-              </button>
-            </li>
-          ))}
+          {NAV_ITEMS.filter((item) => !item.requiresAuth || user).map(
+            (item) => (
+              <li key={item.id}>
+                <button
+                  className={`nav-btn${activePage === item.id ? " nav-active" : ""}`}
+                  onClick={() => handleNav(item.id)}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <span className="nav-label">{item.label}</span>
+                </button>
+              </li>
+            ),
+          )}
         </ul>
       </nav>
 
