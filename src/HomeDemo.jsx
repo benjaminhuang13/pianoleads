@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
 import "./HomeDemo.css";
 
-const CITY = "Piano";
+const CITY = "Piano lessons in NYC";
 const FAKE_LEADS = [
-  { name: "NYC Piano Lessons",   rating: "4.7", reviews: 21 },
+  { name: "NYC Piano Lessons", rating: "4.7", reviews: 21 },
   { name: "Jane Mitchell Piano Studio", rating: "4.9", reviews: 38 },
-  { name: "Excellence Music School",  rating: "5.0", reviews: 14 },
+  { name: "Excellence Music School", rating: "5.0", reviews: 14 },
 ];
 
 const PHASES = ["typing", "searching", "results", "pause"];
-const PHASE_MS = { typing: CITY.length * 80, searching: 1100, results: 2800, pause: 800 };
+const PHASE_MS = {
+  typing: CITY.length * 80,
+  searching: 500,
+  results: 2800,
+  pause: 400,
+};
 
 export default function HomeDemo() {
-  const [phase, setPhase]       = useState("typing");
-  const [typed, setTyped]       = useState("");
-  const [visible, setVisible]   = useState(0);
+  const [phase, setPhase] = useState("typing");
+  const [typed, setTyped] = useState("");
+  const [visible, setVisible] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -56,7 +61,9 @@ export default function HomeDemo() {
     }
 
     run();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   return (
@@ -73,7 +80,9 @@ export default function HomeDemo() {
           {typed}
           <span className="demo-cursor" />
         </span>
-        <span className={`demo-btn${phase === "searching" ? " searching" : ""}`}>
+        <span
+          className={`demo-btn${phase === "searching" ? " searching" : ""}`}
+        >
           {phase === "searching" ? "Searching…" : "Find Leads"}
         </span>
       </div>
@@ -87,7 +96,9 @@ export default function HomeDemo() {
               >
                 <span className="demo-lead-name">{lead.name}</span>
                 <span className="demo-lead-meta">Piano Teacher</span>
-                <span className="demo-lead-rating">★ {lead.rating} · {lead.reviews} reviews</span>
+                <span className="demo-lead-rating">
+                  ★ {lead.rating} · {lead.reviews} reviews
+                </span>
               </div>
             ))
           : null}

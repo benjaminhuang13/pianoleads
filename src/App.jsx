@@ -38,17 +38,13 @@ function AppContent() {
           <h1>find Piano Leads 🔍</h1>
           <div className="home-body">
             <div className="home-features-col">
-              <p className="home-cta">Invite only.</p>
-              <p className="home-cta">Sign in to get started.</p>
+              <p className="home-cta">Invite only! Sign in to get started.</p>
               <ul className="home-features">
                 <li>Search for piano teachers in any area</li>
                 <li>Save and manage leads in an organized list</li>
                 <li>Track outreach status for each contact</li>
-                <li>
-                  Pulls data from Google Maps, Yelp, MTNA, social media, and
-                  more
-                </li>
-                <li>Filter by territory, status, source, assignee, and more</li>
+                <li>Pulls data from Google Maps, Yelp, MTNA, social media</li>
+                <li>Filter by territory, status, source, assignee, ...</li>
                 <li>Export leads to CSV</li>
               </ul>
             </div>
